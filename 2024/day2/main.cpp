@@ -9,15 +9,43 @@ using namespace std;
 
 vector<string> list = getInputLines(2024, 2);
 
-bool distance(int a, int b, bool isIncreased)
+bool checkDistance(int a, int b)
 {
-    int val = a - b;
-    return ((isIncreased && val < 0) || (!isIncreased && val > 0)) && abs(val) < 4;
+    int diff = abs(a - b);
+    return diff >= 1 && diff <= 3;
 }
 
-bool isIncreased(int a, int b)
+bool isSafeReport(const vector<int> &report)
 {
-    return a < b;
+
+    bool isIncreasing = report[0] < report.back();
+
+    for (size_t i = 0; i < report.size() - 1; i++)
+    {
+        if (!checkDistance(report[i], report[i + 1]) || (isIncreasing != (report[i] < report[i + 1])))
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool isSafeWithLevel(const vector<int> &report)
+{
+
+    for (size_t i = 0; i < report.size(); i++)
+    {
+
+        vector<int> newReport = report;
+        newReport.erase(newReport.begin() + i);
+
+        if (isSafeReport(newReport))
+        {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 void isSafe()
@@ -44,20 +72,7 @@ void isSafe()
 
     for (const auto &report : reports)
     {
-
-        bool isIncreasing = isIncreased(report[0], report.back());
-        bool isSafe = true;
-
-        for (size_t i = 0; i < report.size() - 1; i++)
-        {
-            if (!distance(report[i], report[i + 1], isIncreasing))
-            {
-                isSafe = false;
-                break;
-            }
-        }
-
-        if (isSafe)
+        if (isSafeReport(report) || isSafeWithLevel(report))
         {
             sum++;
         }
@@ -68,8 +83,6 @@ void isSafe()
 
 int main()
 {
-
     isSafe();
-
     return 0;
 }
