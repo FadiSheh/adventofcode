@@ -13,7 +13,7 @@ std::vector<std::string> getInputLines(int year, int day) {
     string line;
     vector<std::string> lines;
     
-    filePath << year << "/Day" << day << "/input.txt";
+    filePath << year << "/day" << day << "/input.txt";
 
     ifstream myFile (filePath.str());
 
