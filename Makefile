@@ -8,7 +8,7 @@ BUILD_DIR = build
 UTILS_SRC = $(UTILS_DIR)/utils.cpp
 UTILS_OBJ = $(BUILD_DIR)/utils.o
 
-DAYS = day1
+DAYS = day1 day2
 
 TARGETS = $(patsubst %, $(BUILD_DIR)/%, $(DAYS))
 
