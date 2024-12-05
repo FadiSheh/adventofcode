@@ -10,20 +10,33 @@ vector<string> list = getInputLines(2024, 3);
 
 void findMul()
 {
-
     int sum = 0;
-    regex operation(R"(mul\((\d+),(\d+)\))");
+    bool calulate = true;
+    smatch m;
+    regex operation(R"(mul\((\d+),(\d+)\)|do\(\)|don't\(\))");
 
-    for (const auto &x : list)
+    for (auto &x : list)
     {
-
-        std::sregex_iterator begin(x.begin(), x.end(), operation);
-        std::sregex_iterator end;
-
-        for (std::sregex_iterator it = begin; it != end; ++it)
+        while (regex_search(x, m, operation))
         {
-            std::smatch match = *it;
-            sum += stoi(match[1]) * stoi(match[2]);
+            if (m[0].str() == "do()")
+            {
+                calulate = true;
+            }
+            else if (m[0].str() == "don't()")
+            {
+                calulate = false;
+            }
+
+            else
+            {
+                if (calulate)
+                {
+                    sum += stoi(m[1].str()) * stoi(m[2].str());
+                }
+            }
+
+            x = m.suffix().str();
         }
     }
 
